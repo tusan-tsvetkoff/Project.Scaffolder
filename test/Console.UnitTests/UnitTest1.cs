@@ -1,4 +1,4 @@
-namespace Proba.Unit.Tests;
+namespace Console.UnitTests;
 
 public class UnitTest1
 {
