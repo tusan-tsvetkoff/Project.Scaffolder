@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ProjectScaffold;
+﻿using ProjectScaffold;
 using ProjectScaffold.Common;
 using ProjectScaffold.Console;
 using ProjectScaffold.Console.Strategy;
+using ProjectScaffold.Constants;
 using Spectre.Console;
 
 var sourceDir = SourceDirectory.Instance;
@@ -11,14 +11,10 @@ var maker = new ProjectMaker();
 var test = new Test();
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-var solName = AnsiConsole.Ask<string>("What is your [green]solution's name[/]?", "MyProject");
-solution.Name = solName!;
+var solName = AnsiConsole.Ask("What is your [green]solution's name[/]?", "MyProject");
 
-var makeSrc = AnsiConsole.Confirm("Do you want to make a [green]src[/] directory?");
-solution.MakeSrc = makeSrc;
-
-var makeTest = AnsiConsole.Confirm("Do you want to make a [fuchsia]test[/] directory?");
-solution.MakeTest = makeTest;
+solution.MakeSrc = AnsiConsole.Confirm("Do you want to make a [green]src[/] directory?");
+solution.MakeTest = AnsiConsole.Confirm("Do you want to make a [fuchsia]test[/] directory?");
 
 var projectChoice = AnsiConsole.Prompt(
     new MultiSelectionPrompt<string>()
@@ -27,22 +23,22 @@ var projectChoice = AnsiConsole.Prompt(
         .AddChoices(
             new[]
             {
-                "Console",
-                "Library",
-                "ASP.NET Core Empty",
-                "ASP.NET Core Web App (Model-View-Controller)",
-                "ASP.NET Core Web API"
+                Constants.ProjectChoices.Console,
+                Constants.ProjectChoices.Library,
+                Constants.ProjectChoices.AspNetCoreEmpty,
+                Constants.ProjectChoices.AspNetCoreWebAppMvc,
+                Constants.ProjectChoices.AspNetCoreWebApi
             }
         )
 );
 
 var projectTypeDict = new Dictionary<string, ProjectType>
 {
-    { "Console", ProjectType.Console },
-    { "Library", ProjectType.Library },
-    { "ASP.NET Core Empty", ProjectType.AspNetCoreEmpty },
-    { "ASP.NET Core Web App (Model-View-Controller)", ProjectType.Mvc },
-    { "ASP.NET Core Web API", ProjectType.AspNetCoreWebApi }
+    { Constants.ProjectChoices.Console, ProjectType.Console },
+    { Constants.ProjectChoices.Library, ProjectType.Library },
+    { Constants.ProjectChoices.AspNetCoreEmpty, ProjectType.AspNetCoreEmpty },
+    { Constants.ProjectChoices.AspNetCoreWebAppMvc, ProjectType.Mvc },
+    { Constants.ProjectChoices.AspNetCoreWebApi, ProjectType.AspNetCoreWebApi }
 };
 
 var chosenProjects = projectChoice.Select(choice => projectTypeDict[choice]).ToList();
@@ -66,16 +62,23 @@ sourceDir.AddProjects(SourceProject.CreateMany(projectNameList, solution, chosen
 var frameworkChoice = AnsiConsole.Prompt(
     new SelectionPrompt<string>()
         .Title("Select a [green]test framework[/]")
-        .AddChoices(new[] { "xUnit", "NUnit", "MSTest" })
+        .AddChoices(
+            new[]
+            {
+                Constants.TestChoices.XUnit,
+                Constants.TestChoices.NUnit,
+                Constants.TestChoices.MSTest
+            }
+        )
 );
 
 test.Solution = solution;
 
 test.FrameWork = frameworkChoice switch
 {
-    "xUnit" => TestFramework.XUnit,
-    "NUnit" => TestFramework.NUnit,
-    "MSTest" => TestFramework.MSTest,
+    Constants.TestChoices.XUnit => TestFramework.XUnit,
+    Constants.TestChoices.NUnit => TestFramework.NUnit,
+    Constants.TestChoices.MSTest => TestFramework.MSTest,
     _ => throw new NotImplementedException()
 };
 
@@ -125,7 +128,9 @@ await solution.BuildSolution(sourceDir.Projects.Where(proj => proj is not Soluti
 var root = new Tree($"\uf07b {solution.Name}");
 var sol = root.AddNode($"[purple4]{solution.Icon} {solution}[/]");
 var srcNode = srcDir is not null ? root.AddNode($"[green]{srcDir.Icon} {srcDir.Name}[/]") : null;
-var testNode = testDir is not null ? root.AddNode($"[fuchsia]{TestDirectory.Icon} {test.Name}[/]") : null;
+var testNode = testDir is not null
+    ? root.AddNode($"[fuchsia]{TestDirectory.Icon} {test.Name}[/]")
+    : null;
 var srcChildNodes = sourceDir.Projects.Where(proj => proj is SourceProject).ToList();
 var testChildNodes = sourceDir.Projects.Where(proj => proj is Test).ToList();
 
