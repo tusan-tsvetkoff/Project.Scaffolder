@@ -1,4 +1,4 @@
-namespace ProjectScaffold.Console;
+namespace ProjectScaffold.Enums;
 
 public enum ProjectType
 {

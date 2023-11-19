@@ -1,3 +1,5 @@
+namespace ProjectScaffold.Enums;
+
 internal enum TestFramework
 {
     XUnit = 1,

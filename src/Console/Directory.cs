@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices;
-using ProjectScaffold.Console;
 using Spectre.Console;
 
 namespace ProjectScaffold;
@@ -10,7 +8,8 @@ public abstract class DirectoryBase
     public virtual char Icon { get; } = '\uf07b'; // folder icon
     public Solution Solution { get; set; } = null!;
 
-    protected DirectoryBase(Solution solution) { 
+    protected DirectoryBase(Solution solution)
+    {
         Solution = solution;
     }
 
@@ -22,12 +21,12 @@ public abstract class DirectoryBase
 
 public sealed class TestDirectory : DirectoryBase
 {
-    private TestDirectory(Solution solution) : base(solution)
-    {
-    }
+    private TestDirectory(Solution solution)
+        : base(solution) { }
 
     public override string Name => "test";
     public static new string Icon => "\udb81\ude68"; // test tube icon
+
     public static TestDirectory CreateDirectory(Solution solution)
     {
         var dir = new TestDirectory(solution);
@@ -40,9 +39,8 @@ public sealed class TestDirectory : DirectoryBase
 
 public sealed class SSourceDirectory : DirectoryBase
 {
-    private SSourceDirectory(Solution solution) : base(solution)
-    {
-    }
+    private SSourceDirectory(Solution solution)
+        : base(solution) { }
 
     public override string Name => "src";
     public override char Icon => '\uf209'; // src folder icon

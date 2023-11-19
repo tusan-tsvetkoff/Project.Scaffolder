@@ -1,4 +1,6 @@
-namespace ProjectScaffold.Console;
+using ProjectScaffold.Enums;
+
+namespace ProjectScaffold;
 
 internal sealed class Test : ProjectBase
 {

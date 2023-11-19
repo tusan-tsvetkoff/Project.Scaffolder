@@ -1,5 +1,5 @@
-using ProjectScaffold.Console;
 using ProjectScaffold.Console.Strategy;
+using ProjectScaffold.Strategy;
 
 namespace ProjectScaffold.Common;
 

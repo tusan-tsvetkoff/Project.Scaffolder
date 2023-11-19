@@ -1,6 +1,6 @@
 using Spectre.Console;
 
-namespace ProjectScaffold.Console.Strategy;
+namespace ProjectScaffold.Strategy;
 
 public class ProjectMaker
 {

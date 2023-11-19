@@ -1,9 +1,10 @@
 ﻿using ProjectScaffold;
 using ProjectScaffold.Common;
 using ProjectScaffold.Console;
-using ProjectScaffold.Console.Strategy;
+using ProjectScaffold.Strategy;
 using ProjectScaffold.Constants;
 using Spectre.Console;
+using ProjectScaffold.Enums;
 
 var sourceDir = SourceDirectory.Instance;
 var solution = new Solution();
@@ -76,8 +77,8 @@ test.Solution = solution;
 
 test.FrameWork = frameworkChoice switch
 {
-    Constants.TestChoices.XUnit => TestFramework.XUnit,
     Constants.TestChoices.NUnit => TestFramework.NUnit,
+    Constants.TestChoices.XUnit => TestFramework.XUnit,
     Constants.TestChoices.MSTest => TestFramework.MSTest,
     _ => throw new NotImplementedException()
 };
