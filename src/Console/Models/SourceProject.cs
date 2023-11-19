@@ -1,6 +1,6 @@
 using ProjectScaffold.Enums;
 
-namespace ProjectScaffold;
+namespace ProjectScaffold.Models;
 
 public sealed class SourceProject : ProjectBase
 {

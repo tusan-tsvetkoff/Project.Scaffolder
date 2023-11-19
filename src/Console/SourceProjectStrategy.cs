@@ -1,8 +1,9 @@
 using System.Diagnostics;
-using ProjectScaffold.Strategy;
+using ProjectScaffold.Common.Abstractions;
+using ProjectScaffold.Models;
 using Spectre.Console;
 
-namespace ProjectScaffold.Console.Strategy;
+namespace ProjectScaffold.Strategy;
 
 public class SourceProcessStrategy : IProcessStrategy
 {

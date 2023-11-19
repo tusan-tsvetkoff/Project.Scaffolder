@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using ProjectScaffold.Common.Abstractions;
+using ProjectScaffold.Models;
 using Spectre.Console;
 
 namespace ProjectScaffold.Strategy;
@@ -37,6 +39,7 @@ public class TestProcessStrategy : IProcessStrategy
             }
             AnsiConsole.MarkupLine($"[green]Created [u]{test}[/][/]!");
             task.StopTask();
+            // TODO: Find a way to set task value to 100% if it stops earlier
         }
         catch (Exception ex)
         {

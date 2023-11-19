@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{552B1B83-20E1-45C4-B02F-6242AA09FEDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console", "src\Console\Console.csproj", "{1B67AA4B-6336-44B7-9CD1-70CA68A07013}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console", "src\Console\ProjectScaffold.csproj", "{1B67AA4B-6336-44B7-9CD1-70CA68A07013}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{18479906-57B9-40FA-BB91-F7D286DDAFCD}"
 EndProject

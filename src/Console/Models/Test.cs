@@ -1,11 +1,11 @@
 using ProjectScaffold.Enums;
 
-namespace ProjectScaffold;
+namespace ProjectScaffold.Models;
 
 internal sealed class Test : ProjectBase
 {
     public override string Name => $"{Solution.Name}.{TypeName}.Tests";
-    public TestFramework FrameWork { get; set; } = TestFramework.XUnit;
+    public TestFramework FrameWork { get; set; } = TestFramework.XUnit; // default to xunit
     public TestType Type { get; set; } = TestType.Unit;
     public Solution Solution { get; set; } = null!;
     public override string Directory => Path.Combine(Solution.Name, "test");

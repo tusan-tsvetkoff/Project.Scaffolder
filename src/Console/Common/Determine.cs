@@ -1,4 +1,5 @@
-using ProjectScaffold.Console.Strategy;
+using ProjectScaffold.Common.Abstractions;
+using ProjectScaffold.Models;
 using ProjectScaffold.Strategy;
 
 namespace ProjectScaffold.Common;

@@ -1,6 +1,4 @@
-using System.Reflection;
-
-namespace ProjectScaffold;
+namespace ProjectScaffold.Models;
 
 public abstract class ProjectBase
 {

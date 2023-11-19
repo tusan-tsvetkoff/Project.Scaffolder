@@ -1,6 +1,7 @@
+using ProjectScaffold.Models;
 using Spectre.Console;
 
-namespace ProjectScaffold.Strategy;
+namespace ProjectScaffold.Common.Abstractions;
 
 public interface IProcessStrategy
 {

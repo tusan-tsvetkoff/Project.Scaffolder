@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using ProjectScaffold.Common.Abstractions;
+using ProjectScaffold.Models;
 using Spectre.Console;
 
 namespace ProjectScaffold.Strategy;

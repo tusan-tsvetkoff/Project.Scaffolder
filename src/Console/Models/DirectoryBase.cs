@@ -1,6 +1,6 @@
 using Spectre.Console;
 
-namespace ProjectScaffold;
+namespace ProjectScaffold.Models;
 
 public abstract class DirectoryBase
 {
@@ -27,8 +27,13 @@ public sealed class TestDirectory : DirectoryBase
     public override string Name => "test";
     public static new string Icon => "\udb81\ude68"; // test tube icon
 
-    public static TestDirectory CreateDirectory(Solution solution)
+    public static TestDirectory? CreateDirectory(Solution solution)
     {
+        if (!solution.MakeTest)
+        {
+            return null;
+        }
+
         var dir = new TestDirectory(solution);
         var created = dir.MakeDirectory();
 
@@ -45,8 +50,12 @@ public sealed class SSourceDirectory : DirectoryBase
     public override string Name => "src";
     public override char Icon => '\uf209'; // src folder icon
 
-    public static SSourceDirectory CreateDirectory(Solution solution)
+    public static SSourceDirectory? CreateDirectory(Solution solution)
     {
+        if (!solution.MakeTest)
+        {
+            return null;
+        }
         var dir = new SSourceDirectory(solution);
         var created = dir.MakeDirectory();
         AnsiConsole.MarkupLine($"[green]Created directory [u]{created.FullName}[/][/]");
