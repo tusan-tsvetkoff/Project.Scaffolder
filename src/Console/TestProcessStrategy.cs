@@ -11,7 +11,7 @@ public class TestProcessStrategy : IProcessStrategy
 
     public async Task Execute(ProjectBase project, ProgressTask task)
     {
-        var test = (Test)project;
+        var test = (TestProject)project;
 
         var processInfo = new ProcessStartInfo()
         {

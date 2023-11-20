@@ -10,7 +10,7 @@ internal static partial class Constants
         public const string AspNetCoreWebAppMvc = "ASP.NET Core Web App (Model-View-Controller)";
         public const string AspNetCoreWebApi = "ASP.NET Core Web API";
 
-        public static readonly string[] All =
+        public static readonly List<string> All =
         [
             Console,
             Library,

@@ -12,7 +12,7 @@ public static class Determine
         {
             nameof(Solution) => new SolutionProcessStrategy(),
             _
-                => project.GetType().Name == nameof(Test)
+                => project.GetType().Name == nameof(TestProject)
                     ? new TestProcessStrategy()
                     : new SourceProcessStrategy()
         };
@@ -23,7 +23,7 @@ public static class Determine
         return project.GetType().Name switch
         {
             nameof(Solution) => $"Creating solution {project.Name}",
-            nameof(Test) => $"Creating test project {project.Name}",
+            nameof(TestProject) => $"Creating test project {project.Name}",
             _ => $"Creating project {project.Name}"
         };
     }

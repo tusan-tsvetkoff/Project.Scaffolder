@@ -1,22 +1,17 @@
 using ProjectScaffold.Common.Abstractions;
+using ProjectScaffold.Utils;
 
 namespace ProjectScaffold.Strategy;
 
-public sealed class DotNetStyler : ITreeNodeStyler
+public sealed class DotNetStyler : Styler, ITreeNodeStyler
 {
-    public string Icon => Extension switch
-    {
-        ".cs" => "\udb80\udf1b",
-        ".csproj" => "\ue70c",
-        ".sln" => "\ue70c",
-        _ => "\ue77f"
-    };
+    public override string Icon => IconMappingService.Instance.GetIcon<DotNetStyler>(Extension);
 
-    public string FileName { get; private set; } = null!;
+    public override string FileName { get; protected set; } = null!;
 
     public string Extension { get; private set; } = null!;
 
-    public string Color => Extension switch
+    public override string Color => Extension switch
     {
         ".cs" => "[blue]",
         ".csproj" => "[purple_1]",
@@ -24,7 +19,6 @@ public sealed class DotNetStyler : ITreeNodeStyler
         _ => "[blue]"
     };
 
-    public string FullStyle => $"{Color}{Icon} {FileName}[/]";
 
     public string Stylize(string directory, string fileName)
     {

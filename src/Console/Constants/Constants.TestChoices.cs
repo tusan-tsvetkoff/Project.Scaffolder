@@ -8,6 +8,6 @@ internal static partial class Constants
         public const string NUnit = "NUnit";
         public const string MSTest = "MSTest";
 
-        public static readonly IEnumerable<string> All = new List<string> { XUnit, NUnit, MSTest };
+        public static readonly List<string> All = [XUnit, NUnit, MSTest];
     }
 }

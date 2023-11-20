@@ -1,15 +1,16 @@
+using ProjectScaffold.Constants;
 using ProjectScaffold.Enums;
 
 namespace ProjectScaffold.Models;
 
-internal sealed class Test : ProjectBase
+internal sealed class TestProject : ProjectBase
 {
     public override string Name => $"{Solution.Name}.{TypeName}.Tests";
     public TestFramework FrameWork { get; set; } = TestFramework.XUnit; // default to xunit
     public TestType Type { get; set; } = TestType.Unit;
     public Solution Solution { get; set; } = null!;
-    public override string Directory => Path.Combine(Solution.Name, "test");
-    public override string RelativePath => Path.Combine("test", Name);
+    public override string Directory => Path.Combine(Solution.Name, SpecificFolderNamings.Test);
+    public override string RelativePath => Path.Combine(SpecificFolderNamings.Test, Name);
     public string FrameWorkName =>
         FrameWork switch
         {

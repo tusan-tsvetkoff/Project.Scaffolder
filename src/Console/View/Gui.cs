@@ -20,7 +20,7 @@ internal sealed class Gui(
     private readonly TreeNodeStyler styler = new();
     private Solution solution = null!;
     private Tree _treeRoot = null!;
-    private Test? test;
+    private TestProject? test;
     private List<string> projectChoices = [];
     private List<ProjectType> chosenProjectTypes = [];
     private readonly List<string> projectNameList = [];

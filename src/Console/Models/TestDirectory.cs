@@ -1,3 +1,4 @@
+using ProjectScaffold.Constants;
 using Spectre.Console;
 
 namespace ProjectScaffold.Models;
@@ -7,7 +8,7 @@ public sealed class TestDirectory : DirectoryBase
     private TestDirectory(Solution solution)
         : base(solution) { }
 
-    public override string Name => "test";
+    public override string Name => SpecificFolderNamings.Test;
     public static new string Icon => "\udb81\ude68"; // test tube icon
 
     public static TestDirectory? CreateDirectory(Solution solution)

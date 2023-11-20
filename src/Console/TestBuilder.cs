@@ -27,9 +27,9 @@ public sealed class TestBuilder
         return this;
     }
 
-    internal Test Build()
+    internal TestProject Build()
     {
-        return new Test
+        return new TestProject
         {
             Solution = _solution,
             FrameWork = _framework,
