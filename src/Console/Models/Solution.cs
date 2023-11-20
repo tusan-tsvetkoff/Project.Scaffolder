@@ -42,8 +42,6 @@ public sealed class Solution : ProjectBase
 
         try
         {
-            AnsiConsole.MarkupLine($"The path I am trying to add: {startInfo.Arguments}");
-
             using var process = Process.Start(startInfo);
 
             await Task.Run(() => process!.WaitForExit(100));

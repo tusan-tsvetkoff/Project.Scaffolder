@@ -42,7 +42,7 @@ public sealed class TestDirectory : DirectoryBase
     }
 }
 
-public sealed class SSourceDirectory : DirectoryBase
+public sealed class SSourceDirectory : DirectoryBase // TODO: This is shite
 {
     private SSourceDirectory(Solution solution)
         : base(solution) { }

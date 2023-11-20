@@ -1,3 +1,4 @@
+using System.Globalization;
 using ProjectScaffold.Builders;
 using ProjectScaffold.Common;
 using ProjectScaffold.Enums;
@@ -11,7 +12,10 @@ internal sealed class Gui(SolutionBuilder solutionBuilder, DirectoryBuilder dire
 {
     private (SSourceDirectory srcDir, TestDirectory? testDir) _directoryTuple;
     private readonly SourceDirectory sourceDir = SourceDirectory.Instance;
+    private int LongestFileNameLength;
+    private readonly TreeNodeStyler styler = new();
     private Solution solution = null!;
+    private Tree _treeRoot = null!;
     private Test? test;
     private List<string> projectChoices = [];
     private List<ProjectType> chosenProjectTypes = [];
@@ -34,12 +38,12 @@ internal sealed class Gui(SolutionBuilder solutionBuilder, DirectoryBuilder dire
         WriteWelcomeMessage();
 
         solution = BuildSolution();
-        
+
         projectChoices = ListAndSelectProjectTypes();
         chosenProjectTypes = projectChoices.Select(choice => projectTypesDict[choice]).ToList();
         ListAndEnterProjectNames();
 
-        if(solution.MakeTest)
+        if (solution.MakeTest)
         {
             BuildTestProject();
         }
@@ -54,19 +58,32 @@ internal sealed class Gui(SolutionBuilder solutionBuilder, DirectoryBuilder dire
 
         await solution.BuildSolution(sourceDir.Projects.Where(proj => proj is not Solution));
 
-        DrawProjectTree();
+        ScanAndPrepareTree(solution.Directory, _treeRoot);
+        var panel = new Panel(_treeRoot)
+        {
+            Header = new PanelHeader("Project Structure"),
+            // TODO: Figure out why padding right is not working at all
+        };
+
+        AnsiConsole.Write(panel);
     }
 
     /// <summary>
     /// Builds a solution based on user input.
     /// </summary>
     /// <returns>The built solution.</returns>
-    private Solution BuildSolution() =>
-    solutionBuilder
+    private Solution BuildSolution()
+    {
+        var sol = solutionBuilder
             .WithName(AnsiConsole.Ask("What is your [green]solution's name[/]?", "MyProject"))
             .MakeSrc(AnsiConsole.Confirm("Do you want to make a [green]src[/] directory?"))
             .MakeTest(AnsiConsole.Confirm("Do you want to make a [fuchsia]test[/] directory?"))
             .Build();
+
+        _treeRoot = new Tree($"{sol.Icon} {sol.Name}"); // TODO: Change to folder icon 
+
+        return sol;
+    }
 
 
     /// <summary>
@@ -137,7 +154,7 @@ internal sealed class Gui(SolutionBuilder solutionBuilder, DirectoryBuilder dire
     /// </summary>
     private static void WriteWelcomeMessage()
     {
-        Console.OutputEncoding = System.Text.Encoding.UTF8; // Required for some glyphs to display correctly
+        System.Console.OutputEncoding = System.Text.Encoding.UTF8; // Required for some glyphs to display correctly
         AnsiConsole.Write(new FigletText("Project Scaffold").Color(Color.Green));
         AnsiConsole.MarkupLine("Welcome to [green]Project Scaffold[/]!");
         AnsiConsole.MarkupLine(
@@ -181,19 +198,54 @@ internal sealed class Gui(SolutionBuilder solutionBuilder, DirectoryBuilder dire
     /// </summary>
     private void DrawProjectTree()
     {
+        // TODO: Better drawing of the tree
+        // * Scan the directory and build the tree from that
 
-        var root = new Tree($"\uf07b {solution.Name}");
-        var sol = root.AddNode($"[purple4]{solution.Icon} {solution}[/]");
-        var srcNode = _directoryTuple.srcDir is not null ? root.AddNode($"[green]{_directoryTuple.srcDir.Icon} {_directoryTuple.srcDir.Name}[/]") : null;
-        var testNode = test is not null && _directoryTuple.testDir is not null
-            ? root.AddNode($"[fuchsia]{TestDirectory.Icon} {test.Name}[/]")
-            : null;
-        var srcChildNodes = sourceDir.Projects.Where(proj => proj is SourceProject).ToList();
-        var testChildNodes = sourceDir.Projects.Where(proj => proj is Test).ToList();
+        // var root = new Tree($"\uf07b {solution.Name}");
+        // var sol = root.AddNode($"[purple4]{solution.Icon} {solution}[/]");
+        // var srcNode = _directoryTuple.srcDir is not null ? root.AddNode($"[green]{_directoryTuple.srcDir.Icon} {_directoryTuple.srcDir.Name}[/]") : null;
+        // var testNode = test is not null && _directoryTuple.testDir is not null
+        //     ? root.AddNode($"[fuchsia]{TestDirectory.Icon} {test.Name}[/]")
+        //     : null;
+        // var srcChildNodes = sourceDir.Projects.Where(proj => proj is SourceProject).ToList();
+        // var testChildNodes = sourceDir.Projects.Where(proj => proj is Test).ToList();
 
-        srcChildNodes.ForEach(proj => srcNode?.AddNode($"[purple4_1]{proj.Icon} {proj}[/]"));
-        testChildNodes.ForEach(proj => testNode?.AddNode($"[fuchsia]{proj.Icon} {proj}[/]"));
+        // srcChildNodes.ForEach(proj => srcNode?.AddNode($"[purple4_1]{proj.Icon} {proj}[/]"));
+        // testChildNodes.ForEach(proj => testNode?.AddNode($"[fuchsia]{proj.Icon} {proj}[/]"));
 
-        AnsiConsole.Write(root);
+        // AnsiConsole.Write(root);
+    }
+
+    private void ScanAndPrepareTree(string directory, Tree parentNode, int depth = 0)
+    {
+        var files = Directory.GetFiles(directory);
+
+        foreach (var file in files)
+        {
+            LongestFileNameLength = Math.Max(LongestFileNameLength, Path.GetRelativePath(directory, file).Length);
+            if (depth >= 4)
+            {
+                continue;
+            }
+
+            styler.SetStyler(file);
+            parentNode.AddNode(styler.Stylize(directory, file));
+        }
+
+        var subDirs = Directory.EnumerateDirectories(directory, "*", SearchOption.TopDirectoryOnly)
+                            .Where(subDir => !subDir.EndsWith("obj") && !subDir.EndsWith("bin"));
+
+        foreach (var subDir in subDirs)
+        {
+            LongestFileNameLength = Math.Max(LongestFileNameLength, Path.GetRelativePath(directory, subDir).Length);
+            if (depth >= 4) // ! Hardcoded for now, but it essentially prevents the tree from getting too big
+            {
+                continue;
+            }
+            styler.SetStyler(subDir);
+            var subDirNode = new Tree(styler.Stylize(directory, subDir));
+            parentNode.AddNode(subDirNode);
+            ScanAndPrepareTree(subDir, subDirNode, depth + 1);
+        }
     }
 }
