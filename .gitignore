@@ -10,7 +10,7 @@
 .Proba/
 
 # Ignore the file explorer project
-.src/FileExplorer/ 
+src/FileExplorer/ 
 
 # User-specific files
 *.rsuser
