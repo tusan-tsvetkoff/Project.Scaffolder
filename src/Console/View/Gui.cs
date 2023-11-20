@@ -193,29 +193,6 @@ internal sealed class Gui(SolutionBuilder solutionBuilder, DirectoryBuilder dire
         }
     }
 
-    /// <summary>
-    /// Draws the project tree in the console.
-    /// </summary>
-    private void DrawProjectTree()
-    {
-        // TODO: Better drawing of the tree
-        // * Scan the directory and build the tree from that
-
-        // var root = new Tree($"\uf07b {solution.Name}");
-        // var sol = root.AddNode($"[purple4]{solution.Icon} {solution}[/]");
-        // var srcNode = _directoryTuple.srcDir is not null ? root.AddNode($"[green]{_directoryTuple.srcDir.Icon} {_directoryTuple.srcDir.Name}[/]") : null;
-        // var testNode = test is not null && _directoryTuple.testDir is not null
-        //     ? root.AddNode($"[fuchsia]{TestDirectory.Icon} {test.Name}[/]")
-        //     : null;
-        // var srcChildNodes = sourceDir.Projects.Where(proj => proj is SourceProject).ToList();
-        // var testChildNodes = sourceDir.Projects.Where(proj => proj is Test).ToList();
-
-        // srcChildNodes.ForEach(proj => srcNode?.AddNode($"[purple4_1]{proj.Icon} {proj}[/]"));
-        // testChildNodes.ForEach(proj => testNode?.AddNode($"[fuchsia]{proj.Icon} {proj}[/]"));
-
-        // AnsiConsole.Write(root);
-    }
-
     private void ScanAndPrepareTree(string directory, Tree parentNode, int depth = 0)
     {
         var files = Directory.GetFiles(directory);

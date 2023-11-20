@@ -4,23 +4,25 @@ namespace ProjectScaffold.Strategy;
 
 public sealed class ConfigStyler : ITreeNodeStyler
 {
-    public string Icon => DetermineIcon(Extension);
+    public string Icon => DetermineIcon();
     private string Extension { get; set; } = null!;
 
-    public string FileName => throw new NotImplementedException();
+    public string FileName { get; private set; } = null!;
 
-    public string Color => throw new NotImplementedException();
+    public string Color => "[red]";
 
-    public string FullStyle => throw new NotImplementedException();
+    public string FullStyle => $"{Color}{Icon} {FileName}[/]";
 
     public string Stylize(string directory, string file)
     {
-        throw new NotImplementedException();
+        FileName = Path.GetRelativePath(directory, file);
+        Extension = Path.GetExtension(file);
+        return FullStyle;
     }
 
-    private string DetermineIcon(string extension)
+    private string DetermineIcon()
     {
-        return extension switch
+        return Extension switch
         {
             ".json" => "\ue60b",
             ".xml" => "\ue619",

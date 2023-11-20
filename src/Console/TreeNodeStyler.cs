@@ -4,7 +4,8 @@ using ProjectScaffoldj.Extensions;
 
 namespace ProjectScaffold.Strategy;
 
-public sealed class TreeNodeStyler{
+public sealed class TreeNodeStyler
+{
     private ITreeNodeStyler _styler = null!;
 
     internal void SetStyler(string file)
@@ -17,7 +18,10 @@ public sealed class TreeNodeStyler{
         {
             _styler = Path.GetExtension(file) switch
             {
-                var extension when ExtensionCollections.DotNetExtensions.Contains(extension) => new DotNetStyler(),
+                var extension when ExtensionCollections.DotNetExtensions.Contains(extension)
+                    => new DotNetStyler(),
+                var extension when ExtensionCollections.ConfigExtensions.Contains(extension)
+                    => new ConfigStyler(),
                 _ => new DefaultStyler()
             };
         }
@@ -25,6 +29,6 @@ public sealed class TreeNodeStyler{
 
     public string Stylize(string directory, string file)
     {
-        return _styler.Stylize(directory,file);
+        return _styler.Stylize(directory, file);
     }
 }
