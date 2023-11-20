@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "args": [
+        "test",
+        "/p:CollectCoverage=true",
+        "/p:CoverletOutputFormat=lcov",
+        "/p:CoverletOutput=./lcov.info"
+      ],
+      "command": "dotnet",
+      "group": {
+        "isDefault": true,
+        "kind": "test"
+      },
+      "label": "cover tests",
+      "problemMatcher": "$msCompile",
+      "type": "process"
+    }
+  ]
+}
