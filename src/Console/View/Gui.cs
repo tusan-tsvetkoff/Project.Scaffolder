@@ -8,10 +8,14 @@ using Spectre.Console;
 
 namespace ProjectScaffold.View;
 
-internal sealed class Gui(SolutionBuilder solutionBuilder, DirectoryBuilder directoryBuilder, TestBuilder testBuilder, ProjectMaker maker)
+internal sealed class Gui(
+    SolutionBuilder solutionBuilder,
+    DirectoryBuilder directoryBuilder,
+    TestBuilder testBuilder,
+    ProjectMaker maker)
 {
-    private (SSourceDirectory srcDir, TestDirectory? testDir) _directoryTuple;
-    private readonly SourceDirectory sourceDir = SourceDirectory.Instance;
+    private (SourceDirectory srcDir, TestDirectory? testDir) _directoryTuple;
+    private readonly MainDirectory sourceDir = MainDirectory.Instance;
     private int LongestFileNameLength;
     private readonly TreeNodeStyler styler = new();
     private Solution solution = null!;

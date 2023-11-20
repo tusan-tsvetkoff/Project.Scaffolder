@@ -11,9 +11,9 @@ public sealed class DirectoryBuilder
         _solution = solution;
     }
 
-    public (SSourceDirectory srcDir, TestDirectory? testDir) Build()
+    public (SourceDirectory srcDir, TestDirectory? testDir) Build()
     {
-        var src = SSourceDirectory.CreateDirectory(_solution);
+        var src = SourceDirectory.CreateDirectory(_solution);
         var test = TestDirectory.CreateDirectory(_solution);
         return (src!, test);
     }

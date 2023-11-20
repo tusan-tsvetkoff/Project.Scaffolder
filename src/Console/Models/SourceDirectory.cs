@@ -1,62 +1,24 @@
+using Spectre.Console;
+
 namespace ProjectScaffold.Models;
 
-public sealed class SourceDirectory
+public sealed class SourceDirectory : DirectoryBase // TODO: This is shite
 {
-    private static readonly object lockObject = new();
-    private static SourceDirectory? _instance;
-    public static SourceDirectory Instance
+    private SourceDirectory(Solution solution)
+        : base(solution) { }
+
+    public override string Name => "src";
+    public override char Icon => '\uf209'; // src folder icon
+
+    public static SourceDirectory? CreateDirectory(Solution solution)
     {
-        get
+        if (!solution.MakeTest)
         {
-            if (_instance is null)
-            {
-                lock (lockObject)
-                {
-                    _instance ??= new SourceDirectory();
-                }
-            }
-            return _instance;
+            return null;
         }
-    }
-    private readonly List<ProjectBase> _projects = new();
-    public List<ProjectBase> Projects => _projects;
-
-    private SourceDirectory() { }
-
-    /// <summary>
-    /// Adds a project to the source directory.
-    /// </summary>
-    /// <param name="project">The project to add.</param>
-    public void AddProject(ProjectBase project)
-    {
-        _projects.Add(project);
-    }
-
-    /// <summary>
-    /// Adds one or more projects to the source directory.
-    /// </summary>
-    /// <param name="projects">The projects to add.</param>
-    public void AddProjects(params ProjectBase[] projects)
-    {
-        foreach (var project in projects)
-        {
-            if (project is null)
-            {
-                continue;
-            }
-            _projects.Add(project);
-        }
-    }
-
-    /// <summary>
-    /// Adds a collection of projects to the source directory.
-    /// </summary>
-    /// <param name="projects">The projects to add.</param>
-    public void AddProjects(IEnumerable<ProjectBase> projects)
-    {
-        foreach (var project in projects)
-        {
-            _projects.Add(project);
-        }
+        var dir = new SourceDirectory(solution);
+        var created = dir.MakeDirectory();
+        AnsiConsole.MarkupLine($"[green]Created directory [u]{created.FullName}[/][/]");
+        return dir;
     }
 }
