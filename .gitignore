@@ -6,7 +6,11 @@
 # dotenv files
 .env
 
+# Ignore testing folder
 .Proba/
+
+# Ignore the file explorer project
+./src/FileExplorer/ 
 
 # User-specific files
 *.rsuser
