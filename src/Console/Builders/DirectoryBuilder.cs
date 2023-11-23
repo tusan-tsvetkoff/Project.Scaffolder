@@ -15,6 +15,6 @@ public sealed class DirectoryBuilder
     {
         var src = SourceDirectory.CreateDirectory(_solution);
         var test = TestDirectory.CreateDirectory(_solution);
-        return (src!, test);
+        return (src!, test); //! src presumably src always exists(?)
     }
 }
