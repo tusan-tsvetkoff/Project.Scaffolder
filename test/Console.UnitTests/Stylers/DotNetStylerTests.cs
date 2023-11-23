@@ -27,13 +27,11 @@ public sealed class DotNetStylerTests
     }
 
     [Theory]
-    [
-        InlineData(".cs"),
-        InlineData(".csproj"),
-        InlineData(".sln"),
-        InlineData(".razor"),
-        InlineData(".cshtml")
-    ]
+    [InlineData(".cs")]
+    [InlineData(".csproj")]
+    [InlineData(".sln")]
+    [InlineData(".razor")]
+    [InlineData(".cshtml")]
     public void Icon_ReturnsCorrectIconBasedOnExtension(string extension)
     {
         // Arrange
@@ -64,7 +62,7 @@ public sealed class DotNetStylerTests
     [InlineData(".cs", "[blue]")]
     [InlineData(".csproj", "[purple_1]")]
     [InlineData(".sln", "[darkmagenta]")]
-    [InlineData(".txt", "[blue]")]
+    [InlineData(".txt", "[blue]")] // default (could change)
     public void Color_ReturnsCorrectColorBasedOnExtension(string extension, string expectedColor)
     {
         string file = $"TestFile{extension}";
