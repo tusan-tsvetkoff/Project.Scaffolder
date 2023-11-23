@@ -19,6 +19,7 @@ public sealed partial class IconMappingService
         _stylerIconMappings[typeof(ConfigStyler)] = IconMappings.ConfigMappings;
         _stylerIconMappings[typeof(DotNetStyler)] = IconMappings.DotNetMappings;
         _stylerIconMappings[typeof(DirectoryStyler)] = IconMappings.DirectoryMappings;
+        _stylerIconMappings[typeof(DefaultStyler)] = IconMappings.DefaultMappings;
     }
 
     /// <summary>
