@@ -1,9 +1,6 @@
 ﻿using ProjectScaffold.Strategy;
 using ProjectScaffold.Builders;
 using ProjectScaffold.View;
-using FileExplorer.Main;
-using Spectre.Console;
-using System.Collections;
 
 namespace ProjectScaffold.Main;
 
